@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package person;     //可以使用person.xx来调用
+option go_package="github/go_grpc/pb/person;person";    //从包路径（mod下开始）// 写；别名；
+
+//import "home/home.proto";
+
+
+// message Home{
+//    repeated Person persons=1;  //嵌套
+//    message V{
+//        string name=2;
+//    }
+//    V v=2;
+//}
+
+message PersonReq{
+    string name=1;
+    int32 age=2;
+//    enum SEX{   //枚举
+//        man=0;
+//        woman=1;
+//        other=2;
+//    }
+//    SEX sex=3;
+//    repeated string test=4;
+//   // map<string ,string >test_map=5;
+//    reserved 5;   //保留字
+//    //reserved "test","t";
+//
+//    home.Home i_home = 6;
+}
+message PersonRes{
+    string name=1;
+    int32 age=2;
+}
+service SearchService{
+    rpc Search(PersonReq) returns(PersonRes);//传统的即刻响应
+    rpc SearchIn(stream PersonReq) returns(PersonRes); //入参为流
+    rpc SearchOut( PersonReq) returns(stream PersonRes); //出参为流
+    rpc SearchIO(stream PersonReq) returns(stream PersonRes); //出入参为流
+}
